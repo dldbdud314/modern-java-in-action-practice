@@ -27,6 +27,16 @@ public class FilteringApples {
 
         System.out.println("greenApples2 = " + greenApples2);
         System.out.println("heavyApples = " + heavyApples);
+
+        // 동작 파라미터화
+        List<Apple> greenApples3 = filterApples(inventory, new AppleGreenColorPredicate());
+        List<Apple> heavyApples2 = filterApples(inventory, new AppleHeavyWeightPredicate());
+
+        System.out.println("greenApples3 = " + greenApples3);
+        System.out.println("heavyApples2 = " + heavyApples2);
+
+        prettyPrintApple(inventory, new AppleColorFormatter());
+        prettyPrintApple(inventory, new AppleWeightFormatter());
     }
 
     /**
@@ -82,6 +92,30 @@ public class FilteringApples {
         return result;
     }
 
+    /**
+     * 추상적인 조건으로 필터링하기 (<b>동작 파라미터화</b>)
+     *
+     * @param inventory
+     * @param p
+     * @return
+     */
+    public static List<Apple> filterApples(List<Apple> inventory, ApplePredicate p) {
+        List<Apple> result = new ArrayList<>();
+        for (Apple apple : inventory) {
+            if (p.test(apple)) {
+                result.add(apple);
+            }
+        }
+        return result;
+    }
+
+    public static void prettyPrintApple(List<Apple> inventory, AppleFormatter f) {
+        for (Apple apple : inventory){
+            String output = f.printInFormat(apple);
+            System.out.println(output);
+        }
+    }
+
     enum Color {RED, GREEN}
 
     public static class Apple {
@@ -105,6 +139,46 @@ public class FilteringApples {
         @Override
         public String toString() {
             return String.format("Apple{color=%s, weight=%d}", color, weight);
+        }
+    }
+
+    interface ApplePredicate {
+        boolean test(Apple apple);
+    }
+
+    static class AppleHeavyWeightPredicate implements ApplePredicate {
+
+        @Override
+        public boolean test(Apple apple) {
+            return apple.getWeight() > 150;
+        }
+    }
+
+    static class AppleGreenColorPredicate implements ApplePredicate {
+
+        @Override
+        public boolean test(Apple apple) {
+            return GREEN.equals(apple.getColor());
+        }
+    }
+
+    public interface AppleFormatter {
+        String printInFormat(Apple apple);
+    }
+
+    static class AppleWeightFormatter implements AppleFormatter {
+
+        @Override
+        public String printInFormat(Apple apple) {
+            return String.format("This is an apple of %d", apple.getWeight());
+        }
+    }
+
+    static class AppleColorFormatter implements AppleFormatter{
+
+        @Override
+        public String printInFormat(Apple apple) {
+            return String.format("This is a %s apple", apple.getColor());
         }
     }
 }
