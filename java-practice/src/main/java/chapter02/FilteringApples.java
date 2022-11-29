@@ -28,15 +28,31 @@ public class FilteringApples {
         System.out.println("greenApples2 = " + greenApples2);
         System.out.println("heavyApples = " + heavyApples);
 
-        // 동작 파라미터화
+        // 동작 파라미터화 1) 직접 인터페이스 선언해서 전략 구현
         List<Apple> greenApples3 = filterApples(inventory, new AppleGreenColorPredicate());
         List<Apple> heavyApples2 = filterApples(inventory, new AppleHeavyWeightPredicate());
 
+        System.out.println("인터페이스 구현하기: ");
         System.out.println("greenApples3 = " + greenApples3);
         System.out.println("heavyApples2 = " + heavyApples2);
 
+        // 실습 문제
         prettyPrintApple(inventory, new AppleColorFormatter());
         prettyPrintApple(inventory, new AppleWeightFormatter());
+
+        // 동작 파라미터화 2) 익명 클래스 활용
+        List<Apple> redApples2 = filterApples(inventory, new ApplePredicate() {
+            @Override
+            public boolean test(Apple apple) {
+                return RED.equals(apple.getColor());
+            }
+        });
+        System.out.println("익명 클래스 활용: redApples2 = " + redApples2);
+
+        // 동작 파라미터화 3) 람다식 활용
+        List<Apple> redApples3 = filterApples(inventory,
+                (Apple apple) -> RED.equals(apple.getColor()));
+        System.out.println("람다식 활용: redApples3 = " + redApples3);
     }
 
     /**
