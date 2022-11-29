@@ -3,6 +3,7 @@ package chapter02;
 import static chapter02.FilteringApples.Color.GREEN;
 import static chapter02.FilteringApples.Color.RED;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +54,12 @@ public class FilteringApples {
         List<Apple> redApples3 = filterApples(inventory,
                 (Apple apple) -> RED.equals(apple.getColor()));
         System.out.println("람다식 활용: redApples3 = " + redApples3);
+
+        // 동작 파라미터화 4) 리스트 형식으로 추상화 하기
+        List<Integer> numberList = Arrays.asList(11, 20, 32, 17, 102);
+        List<Integer> evenNumbers = filter(numberList,
+                (Integer i) -> i % 2 == 0);
+        System.out.println("리스트 형식 추상화: evenNumbers = " + evenNumbers);
     }
 
     /**
@@ -202,5 +209,19 @@ public class FilteringApples {
         public String printInFormat(Apple apple) {
             return String.format("This is a %s apple", apple.getColor());
         }
+    }
+
+    interface Predicate<T>{
+        boolean test(T t);
+    }
+
+    public static <T> List<T> filter(List<T> list, Predicate<T> p){
+        List<T> result = new ArrayList<>();
+        for(T e : list){
+            if (p.test(e)){
+                result.add(e);
+            }
+        }
+        return result;
     }
 }
