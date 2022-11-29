@@ -109,6 +109,12 @@ public class FilteringApples {
         return result;
     }
 
+    /**
+     * 실습 문제 -> 예쁘게 출력하는 동작을 파라미터화 해보자 !!
+     *
+     * @param inventory
+     * @param f
+     */
     public static void prettyPrintApple(List<Apple> inventory, AppleFormatter f) {
         for (Apple apple : inventory){
             String output = f.printInFormat(apple);
