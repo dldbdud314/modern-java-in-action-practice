@@ -3,7 +3,6 @@ package chapter02;
 import static chapter02.FilteringApples.Color.GREEN;
 import static chapter02.FilteringApples.Color.RED;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
